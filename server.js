@@ -3,6 +3,9 @@ const express = require("express");
 const hbs = require("hbs");
 const fs = require("fs");
 
+// setting dynamic port value.
+const port = process.env.PORT || 3000;
+
 //#endregion
 
 // make express app.
@@ -19,7 +22,6 @@ app.set("view engine", "hbs");
 // __dirname stores the path of the project directory.
 app.use(express.static(__dirname+"/public"));
 
-// using middleware
 app.use( (req, res, next) => {
     var now = new Date().toString();
 
@@ -81,6 +83,13 @@ app.get("/about", (req, res) => {
     });
 });
 
+app.get("/projects", (req, res) => {
+    res.render("projects.hbs", {
+        PageTitle: "Projects",
+        WelcomeMessage: "Welcome to my projects"
+    });
+});
+
 // handler for bad route
 app.get("/bad", (req, res) => {
     res.send({
@@ -92,6 +101,6 @@ app.get("/bad", (req, res) => {
 //#endregion
 
 // binds app to a port. takes an optional function as a second argument.
-app.listen(3000, () => {
-    console.log("using port 3000");
+app.listen(port, () => {
+    console.log(`using port ${port}`);
 });
